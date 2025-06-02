@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class StringController {
   // Given two strings, return concat value.
   // https//localhost:8080/concat/hello/world
-  // throw excepton -> NumberFormatExcetpion, why?
-  // x = hello -> Integer.parse("hello") -> NumberFormatExcetpion
   @GetMapping("/concat/{x}/{y}")
   public String concat(@PathVariable String x, @PathVariable String y) {
     return x.concat(y);
   }
 
   // http://localhost:8080/sum2/hello/world
+  // throw excepton -> NumberFormatExcetpion, why?
+  // x = hello -> Integer.parse("hello") -> NumberFormatExcetpion
   @GetMapping(value = "/sum2/{x}/{y}")
   public Integer sum(@PathVariable String x, @PathVariable String y) {
     try {
