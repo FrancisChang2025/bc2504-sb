@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.bootcamp.demo.demo_sb_person.Customer.CustomerBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @ResponseBody
@@ -28,14 +25,14 @@ public class PersonController {
   // create a API to return a person (Person.class) -> John, 18
   @GetMapping("/person")
   public Person getPerson() {
-     return new Person("John", 18);
+     return new Person(3L, "John", 18);
   }
 
   // persons ->
   @GetMapping("/persons")
   public List<Person> getPersons() {
       return new ArrayList<>(
-        Arrays.asList(new Person("Mary", 5), new Person("Peter", 10)));
+        Arrays.asList(new Person(4L, "Mary", 5), new Person(5L,"Peter", 10)));
   }
   
   // customer, order
@@ -50,8 +47,8 @@ public class PersonController {
     List<Order> orders1 =
       new ArrayList<>(Arrays.asList(new Order(1L), new Order(2L)));
     Customer c1 = Customer.builder().id(1L).orders(orders1).build();
-    Customer c2 = Customer.builder().id(2L).build();
-    Customer c3 = Customer.builder().id(3L).build();
+  //  Customer c2 = Customer.builder().id(2L).build();
+  //  Customer c3 = Customer.builder().id(3L).build();
 
 
     List<Customer> customers = new ArrayList<>(Arrays.asList(c1));
