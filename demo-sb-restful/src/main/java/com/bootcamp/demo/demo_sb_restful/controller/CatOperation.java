@@ -17,7 +17,7 @@ public interface CatOperation {
   public List<Cat> getAll();
 
   @PutMapping(value = "/cat/{id}")
-  public Cat update(@RequestBody Cat cat, @PathVariable Long id);
+  public Cat update(@PathVariable Long id, @RequestBody Cat cat);
 
   @GetMapping(value = "/cat/{id}")
   public Cat getById(@PathVariable Long id);
