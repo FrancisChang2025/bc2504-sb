@@ -11,14 +11,13 @@ import com.bootcamp.demo.bc_forum.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-  // @Value -> check dependency with yml file
   @Value("${service-url.users}")
   private String url;
 
   @Override
   public List<UserDTO> getUsers() {
-    //  String url = "https://jsonplaceholder.typicode.com/users";
-    UserDTO[] dtos = new RestTemplate().getForObject(url, UserDTO[].class);
+    // String url = "https://jsonplaceholder.typicode.com/users";
+    UserDTO[] dtos = new RestTemplate().getForObject(this.url, UserDTO[].class);
     return new ArrayList<>(Arrays.asList(dtos));
   }
 }

@@ -1,14 +1,15 @@
 package com.bootcamp.demo.bc_forum.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-// Java Built-in Class
+// Java Build-in Class
 
-@Configurable
+@Configuration
 public class AppConfig {
-  @Bean // ! created at Spring Context after server start
+  // ! created at Spring Context after server start
+  @Bean
   RestTemplate restTemplate() {
     return new RestTemplate();
   }

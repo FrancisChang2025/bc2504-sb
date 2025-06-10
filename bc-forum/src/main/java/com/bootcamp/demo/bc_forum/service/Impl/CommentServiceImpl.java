@@ -11,10 +11,11 @@ import org.springframework.web.client.RestTemplate;
 import com.bootcamp.demo.bc_forum.model.dto.CommentDTO;
 import com.bootcamp.demo.bc_forum.service.CommentService;
 
-// Scan classes -> bean (@Component, @Controller, @Service, @Respository, @Configuration)
-// @Configuration: Built-in class -> bean
+// Scan classes -> bean (@Component, @Controller, @Service, @Repository, @Configuration)
+// @Configuration: Bulit-in class -> bean
 @Service
 public class CommentServiceImpl implements CommentService {
+  // @Value -> check dependency with yml file
   @Value("${service-url.comments}")
   private String url;
 
@@ -25,14 +26,14 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<CommentDTO> getComments() {
     // String url = "https://jsonplaceholder.typicode.com/comments";
-    CommentDTO[] dtos = this.restTemplate.getForObject(this.url, CommentDTO[].class); // >100ms
+    CommentDTO[] dtos = new RestTemplate().getForObject(this.url, CommentDTO[].class); // >100ms
     return new ArrayList<>(Arrays.asList(dtos));
   }
 
   @Override
   public List<CommentDTO> getComments(Long postId) {
     return this.getComments().stream() //
-      .filter(c -> c.getPostId() == postId) //
+      .filter(c -> c.getPostId() == postId)  //
       .collect(Collectors.toList());
   }
 }

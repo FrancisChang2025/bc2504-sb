@@ -12,13 +12,13 @@ import com.bootcamp.demo.bc_forum.service.PostService;
 
 @Service
 public class PostServiceImpl implements PostService {
-  @Value("${service-url.posts}") // similar to autowired
+  @Value("${service-url.posts}")
   private String url;
 
   @Override
   public List<PostDTO> getPosts() {
     // String url = "https://jsonplaceholder.typicode.com/posts";
-    PostDTO[] dtos = new RestTemplate().getForObject(url, PostDTO[].class);
+    PostDTO[] dtos = new RestTemplate().getForObject(this.url, PostDTO[].class);
     return new ArrayList<>(Arrays.asList(dtos));
   }
 
@@ -29,5 +29,3 @@ public class PostServiceImpl implements PostService {
       .collect(Collectors.toList());
   }
 }
-
-

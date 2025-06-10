@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class CommentDTO {
-  private Long id;
   private Long postId;
+  private Long id;
   private String name;
   private String email;
   private String body;

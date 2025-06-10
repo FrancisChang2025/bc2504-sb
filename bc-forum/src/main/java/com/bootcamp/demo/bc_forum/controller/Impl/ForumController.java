@@ -22,8 +22,10 @@ import com.bootcamp.demo.bc_forum.service.UserService;
 public class ForumController implements ForumOperation {
   @Autowired
   private UserService userService;
+
   @Autowired
   private PostService postService;
+
   @Autowired
   private CommentService commentService;
 
@@ -99,10 +101,10 @@ public class ForumController implements ForumOperation {
       forumUserDTOs.add(forumUserDTO);
     }
     return forumUserDTOs;
-   }
+  }
 
-   // ! Task 3B
-    @Override
+  // ! Task 3B
+  @Override
   public ForumUserCommentListDTO getForumComments(Long userId) {
     List<UserDTO> userDTOs = this.userService.getUsers(); // Internet
     List<CommentDTO> commentDTOs = this.commentService.getComments(); // Internet
@@ -129,6 +131,5 @@ public class ForumController implements ForumOperation {
         .username(userDTO.getUsername()) //
         .comments(forumUserComments) //
         .build();
-   }
+  }
 }
-    

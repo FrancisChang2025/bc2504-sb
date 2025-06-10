@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class PostDTO {
-  private Long id;
   private Long userId;
+  private Long id;
   private String title;
   private String body;
 }
