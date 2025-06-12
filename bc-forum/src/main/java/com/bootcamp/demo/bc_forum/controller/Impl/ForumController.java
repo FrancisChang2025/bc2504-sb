@@ -10,6 +10,9 @@ import com.bootcamp.demo.bc_forum.dto.ForumCommentDTO;
 import com.bootcamp.demo.bc_forum.dto.ForumPostDTO;
 import com.bootcamp.demo.bc_forum.dto.ForumUserCommentListDTO;
 import com.bootcamp.demo.bc_forum.dto.ForumUserCommentListDTO.ForumUserComment;
+import com.bootcamp.demo.bc_forum.dto.mapper.DTOMapper;
+import com.bootcamp.demo.bc_forum.exception.NotFoundException;
+import com.bootcamp.demo.bc_forum.exception.SysError;
 import com.bootcamp.demo.bc_forum.dto.ForumUserDTO;
 import com.bootcamp.demo.bc_forum.model.dto.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.dto.PostDTO;
@@ -22,12 +25,12 @@ import com.bootcamp.demo.bc_forum.service.UserService;
 public class ForumController implements ForumOperation {
   @Autowired
   private UserService userService;
-
   @Autowired
   private PostService postService;
-
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private DTOMapper dtoMapper;
 
   // ! Task 3A
   @Override
@@ -38,29 +41,6 @@ public class ForumController implements ForumOperation {
 
     List<ForumUserDTO> forumUserDTOs = new ArrayList<>();
     for (UserDTO userDTO : userDTOs) {
-
-      ForumUserDTO.ForumUserAddressDTO.ForumUserGeoDTO forumUserGeoDTO =
-          ForumUserDTO.ForumUserAddressDTO.ForumUserGeoDTO.builder() //
-              .lat(userDTO.getAddress().getGeo().getLat()) //
-              .lng(userDTO.getAddress().getGeo().getLng()) //
-              .build();
-
-      ForumUserDTO.ForumUserAddressDTO forumUserAddressDTO =
-          ForumUserDTO.ForumUserAddressDTO.builder() //
-              .city(userDTO.getAddress().getCity()) //
-              .suite(userDTO.getAddress().getSuite()) //
-              .street(userDTO.getAddress().getStreet()) //
-              .zipcode(userDTO.getAddress().getZipcode()) //
-              .geo(forumUserGeoDTO) //
-              .build();
-
-      ForumUserDTO.ForumUserCompanyDTO forumUserCompanyDTO =
-          ForumUserDTO.ForumUserCompanyDTO.builder()//
-              .bs(userDTO.getCompany().getBs()) //
-              .catchPhrase(userDTO.getCompany().getCatchPhrase()) //
-              .name(userDTO.getCompany().getName()) //
-              .build();
-
       List<ForumPostDTO> forumPostDTOs = new ArrayList<>();
       for (PostDTO postDTO : postDTOs) {
         if (postDTO.getUserId() == userDTO.getId()) {
@@ -68,36 +48,15 @@ public class ForumController implements ForumOperation {
           List<ForumCommentDTO> forumCommentDTOs = new ArrayList<>();
           for (CommentDTO commentDTO : commentDTOs) {
             if (commentDTO.getPostId() == postDTO.getId()) {
-              ForumCommentDTO forumCommentDTO = ForumCommentDTO.builder() //
-                  .id(commentDTO.getId()) //
-                  .email(commentDTO.getEmail()) //
-                  .name(commentDTO.getName()) //
-                  .body(commentDTO.getBody()) //
-                  .build();
+              ForumCommentDTO forumCommentDTO = this.dtoMapper.map(commentDTO);
               forumCommentDTOs.add(forumCommentDTO);
-            }
+            }  
           }
-
-          ForumPostDTO forumPostDTO = ForumPostDTO.builder() //
-              .id(postDTO.getId()) //
-              .title(postDTO.getTitle()) //
-              .body(postDTO.getBody()) //
-              .comments(forumCommentDTOs) //
-              .build();
+          ForumPostDTO forumPostDTO = this.dtoMapper.map(postDTO, forumCommentDTOs);
           forumPostDTOs.add(forumPostDTO);
         }
       }
-
-      ForumUserDTO forumUserDTO = ForumUserDTO.builder().id(userDTO.getId()) //
-          .name(userDTO.getName()) //
-          .username(userDTO.getUsername()) //
-          .website(userDTO.getWebsite()) //
-          .email(userDTO.getEmail()) //
-          .phone(userDTO.getPhone()) //
-          .address(forumUserAddressDTO) //
-          .company(forumUserCompanyDTO) //
-          .posts(forumPostDTOs) //
-          .build();
+      ForumUserDTO forumUserDTO = this.dtoMapper.map(userDTO, forumPostDTOs);
       forumUserDTOs.add(forumUserDTO);
     }
     return forumUserDTOs;
@@ -105,18 +64,21 @@ public class ForumController implements ForumOperation {
 
   // ! Task 3B
   @Override
-  public ForumUserCommentListDTO getForumComments(Long userId) {
+  public ForumUserCommentListDTO getForumComments(String userId) {
+
+    long uId = Long.parseLong(userId);
+
     List<UserDTO> userDTOs = this.userService.getUsers(); // Internet
+    System.out.println(userDTOs);
     List<CommentDTO> commentDTOs = this.commentService.getComments(); // Internet
 
     UserDTO userDTO = userDTOs.stream() //
-        .filter(dto -> dto.getId() == userId) //
+        .filter(dto -> dto.getId() == uId) //
         .findAny() // return Optional
-        .orElseThrow(
-            () -> new IllegalArgumentException("No such user id:" + userId));
+        .orElseThrow(() -> new NotFoundException(SysError.USER_NOT_FOUND));
 
     List<ForumUserCommentListDTO.ForumUserComment> forumUserComments =
-        this.postService.getPosts(userId).stream() //
+        this.postService.getPosts(uId).stream() //
             .flatMap(postDTO -> commentDTOs.stream() //
                 .filter(c -> c.getPostId() == postDTO.getId()) //
                 .map(c -> ForumUserComment.builder() //

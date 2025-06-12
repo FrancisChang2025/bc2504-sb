@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,10 +16,13 @@ public class PostServiceImpl implements PostService {
   @Value("${service-url.posts}")
   private String url;
 
+  @Autowired
+  private RestTemplate restTemplate;
+
   @Override
   public List<PostDTO> getPosts() {
     // String url = "https://jsonplaceholder.typicode.com/posts";
-    PostDTO[] dtos = new RestTemplate().getForObject(this.url, PostDTO[].class);
+    PostDTO[] dtos = this.restTemplate.getForObject(this.url, PostDTO[].class);
     return new ArrayList<>(Arrays.asList(dtos));
   }
 

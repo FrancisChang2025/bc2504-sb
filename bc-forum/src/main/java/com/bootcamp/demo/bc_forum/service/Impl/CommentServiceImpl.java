@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<CommentDTO> getComments() {
     // String url = "https://jsonplaceholder.typicode.com/comments";
-    CommentDTO[] dtos = new RestTemplate().getForObject(this.url, CommentDTO[].class); // >100ms
+    CommentDTO[] dtos = this.restTemplate.getForObject(this.url, CommentDTO[].class); // >100ms
     return new ArrayList<>(Arrays.asList(dtos));
   }
 

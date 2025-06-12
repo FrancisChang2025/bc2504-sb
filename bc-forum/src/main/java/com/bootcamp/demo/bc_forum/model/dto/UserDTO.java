@@ -2,9 +2,11 @@ package com.bootcamp.demo.bc_forum.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class UserDTO {
   private Long id;
   private String name;
@@ -17,6 +19,7 @@ public class UserDTO {
 
   @AllArgsConstructor
   @Getter
+  @Setter
   public static class Address {
     private String street;
     private String suite;
@@ -26,6 +29,7 @@ public class UserDTO {
 
     @AllArgsConstructor
     @Getter
+    @Setter
     public static class Geo {
       private String lat;
       private String lng;
@@ -34,6 +38,7 @@ public class UserDTO {
 
   @AllArgsConstructor
   @Getter
+  @Setter
   public static class Company {
     private String name;
     private String catchPhrase;
