@@ -1,16 +1,22 @@
 package com.bootcamp.demo.demo_sb_restful.service;
 
 import java.util.List;
+import java.util.Optional;
+import com.bootcamp.demo.demo_sb_restful.entity.CatEntity;
 import com.bootcamp.demo.demo_sb_restful.model.Cat;
 
 public interface CatService {
-  Cat save(Cat cat);
+  CatEntity save(Integer zooId, Cat cat);
 
-  Cat findById(Long id);
+  Optional<CatEntity> findById(Long id);
 
-  List<Cat> findAll();
+  List<CatEntity> findAll();
 
-  Cat deleteById(Long id);
+  void deleteById(Long id);
 
-  Cat updateById(Long id, Cat cat);
+  CatEntity updateById(Long id, Cat cat);
+
+  List<CatEntity> findByName(String name);
+
+  List<CatEntity> findByNameAndAge(String name, Integer age);
 }

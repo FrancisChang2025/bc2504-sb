@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.bootcamp.demo.bc_forum.entity.CommentEntity;
 import com.bootcamp.demo.bc_forum.model.dto.CommentDTO;
+import com.bootcamp.demo.bc_forum.repository.CommentRepository;
 import com.bootcamp.demo.bc_forum.service.CommentService;
 
 // Scan classes -> bean (@Component, @Controller, @Service, @Repository, @Configuration)
@@ -21,6 +23,8 @@ public class CommentServiceImpl implements CommentService {
 
   @Autowired
   private RestTemplate restTemplate;
+  @Autowired
+  private CommentRepository commentRepository;
 
   // ! Call Open API (Internet)
   @Override
@@ -33,7 +37,12 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<CommentDTO> getComments(Long postId) {
     return this.getComments().stream() //
-      .filter(c -> c.getPostId() == postId)  //
-      .collect(Collectors.toList());
+        .filter(c -> c.getPostId() == postId) //
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<CommentEntity> saveAll(List<CommentEntity> commentEntities) {
+    return this.commentRepository.saveAll(commentEntities);
   }
 }

@@ -8,17 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "users")
-@Setter
-@NoArgsConstructor
-public class UserEntity implements Serializable {  // Object -> JSON
+@Builder
+public class UserEntity implements Serializable { // Object -> JSON
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -28,9 +26,9 @@ public class UserEntity implements Serializable {  // Object -> JSON
   private String phone;
   private String website;
   private String street;
+  private String zipcode;
   private String suite;
   private String city;
-  private String zipcode;
   @Column(name = "latutide")
   private String lat;
   @Column(name = "longuite")

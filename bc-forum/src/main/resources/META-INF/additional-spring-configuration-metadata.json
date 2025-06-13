@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "service-url.posts",
+    "type": "java.lang.String",
+    "description": "A description for 'service-url.posts'"
+  },
+  {
+    "name": "service-url.users",
+    "type": "java.lang.String",
+    "description": "A description for 'service-url.users'"
+  },
+  {
+    "name": "service-url.comments",
+    "type": "java.lang.String",
+    "description": "A description for 'service-url.comments'"
+  }
+]}

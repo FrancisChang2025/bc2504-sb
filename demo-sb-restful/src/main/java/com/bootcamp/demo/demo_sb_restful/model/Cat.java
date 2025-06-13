@@ -2,7 +2,6 @@ package com.bootcamp.demo.demo_sb_restful.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

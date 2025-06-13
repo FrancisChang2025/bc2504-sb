@@ -19,7 +19,6 @@ public class HelloworldController {
   @GetMapping(value = "/helloworld")
   public String helloworld() {
     String s = "Hello World, welcome to Spring Boot.";
-
     return s;
   }
 

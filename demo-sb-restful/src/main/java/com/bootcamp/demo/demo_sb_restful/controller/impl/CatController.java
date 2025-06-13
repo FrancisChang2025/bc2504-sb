@@ -1,9 +1,12 @@
 package com.bootcamp.demo.demo_sb_restful.controller.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.demo.demo_sb_restful.controller.CatOperation;
+import com.bootcamp.demo.demo_sb_restful.entity.CatEntity;
 import com.bootcamp.demo.demo_sb_restful.model.Cat;
 import com.bootcamp.demo.demo_sb_restful.service.CatService;
 
@@ -26,23 +29,40 @@ public class CatController implements CatOperation {
     x--; // read (0) + write (-1)
   }
    
-  public Cat create(Cat cat) {
-    return this.catService.save(cat);
+  @Override
+  public CatEntity create(Integer zooId, Cat cat) {
+    return this.catService.save(zooId, cat);
   }
 
-  public List<Cat> getAll() {
-    return this.catService.findAll();
+  @Override
+  public List<CatEntity> getAll(Long zooId) {
+    return this.catService.findAll().stream() //
+        .filter(e -> e.getZooEntity().getId() == zooId) //
+        .collect(Collectors.toList());
   }
 
-  public Cat update(Long id, Cat cat) {
+  @Override
+  public CatEntity update(Long id, Cat cat) {
     return this.catService.updateById(id, cat);
   }
 
-  public Cat getById(Long id) {
-    return this.catService.findById(id);
+  // Spring convert object -> String (JSON)
+  @Override
+  public CatEntity getById(Long id) {
+    Optional<CatEntity> catEntity = this.catService.findById(id);
+    if (catEntity.isPresent()) {
+      return catEntity.get();
+    }
+    return null;
+  }
+  
+  @Override
+  public void deleteById(Long id) {
+    this.catService.deleteById(id);
   }
 
-  public Cat deleteById(Long id) {
-     return this.catService.deleteById(id);
+  @Override
+  public List<CatEntity> getByName(String name) {
+    return this.catService.findByName(name);
   }
 }

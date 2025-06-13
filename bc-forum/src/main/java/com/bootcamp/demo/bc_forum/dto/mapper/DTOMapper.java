@@ -15,7 +15,8 @@ import com.bootcamp.demo.bc_forum.model.dto.UserDTO;
 public class DTOMapper {
 
   // POSTDTD -> ForumPOSTDTO
-  public ForumPostDTO map(PostDTO postDTO, List<ForumCommentDTO> forumCommentDTOs) {
+  public ForumPostDTO map(PostDTO postDTO,
+      List<ForumCommentDTO> forumCommentDTOs) {
     return ForumPostDTO.builder() //
         .id(postDTO.getId()) //
         .title(postDTO.getTitle()) //
@@ -48,11 +49,13 @@ public class DTOMapper {
             .zipcode(userDTO.getAddress().getZipcode()) //
             .geo(forumUserGeoDTO) //
             .build();
-
+    
     ForumUserDTO.ForumUserCompanyDTO forumUserCompanyDTO =
         ForumUserDTO.ForumUserCompanyDTO.builder()//
-            .bs(userDTO.getCompany().getBs()) //
-            .catchPhrase(userDTO.getCompany().getCatchPhrase()) //
+            .bs(userDTO.getCompany() //
+                .getBs()) //
+            .catchPhrase(userDTO.getCompany() //
+                .getCatchPhrase()) //
             .name(userDTO.getCompany().getName()) //
             .build();
 
