@@ -8,4 +8,7 @@ public interface PostService {
   List<PostDTO> getPosts();
   List<PostDTO> getPosts(Long userId);
   List<PostEntity> saveAll(List<PostEntity> postEntities);
+  PostEntity save(PostEntity postEntity);
+  void deleteAll();
+  List<PostEntity> getPostsByUserId(Long userId);
 }

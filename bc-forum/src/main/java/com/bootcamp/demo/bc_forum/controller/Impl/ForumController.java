@@ -1,7 +1,9 @@
 package com.bootcamp.demo.bc_forum.controller.Impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,18 +13,29 @@ import com.bootcamp.demo.bc_forum.dto.ForumPostDTO;
 import com.bootcamp.demo.bc_forum.dto.ForumUserCommentListDTO;
 import com.bootcamp.demo.bc_forum.dto.ForumUserCommentListDTO.ForumUserComment;
 import com.bootcamp.demo.bc_forum.dto.mapper.DTOMapper;
+import com.bootcamp.demo.bc_forum.dto.request.PostReqDTO;
+import com.bootcamp.demo.bc_forum.dto.response.ForumPostDTO2;
+import com.bootcamp.demo.bc_forum.entity.CommentEntity;
+import com.bootcamp.demo.bc_forum.entity.PostEntity;
+import com.bootcamp.demo.bc_forum.entity.UserEntity;
+import com.bootcamp.demo.bc_forum.entity.mapper.EntityMapper;
 import com.bootcamp.demo.bc_forum.exception.NotFoundException;
 import com.bootcamp.demo.bc_forum.exception.SysError;
 import com.bootcamp.demo.bc_forum.dto.ForumUserDTO;
 import com.bootcamp.demo.bc_forum.model.dto.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.dto.PostDTO;
 import com.bootcamp.demo.bc_forum.model.dto.UserDTO;
+import com.bootcamp.demo.bc_forum.repository.PostRepository;
 import com.bootcamp.demo.bc_forum.service.CommentService;
 import com.bootcamp.demo.bc_forum.service.PostService;
 import com.bootcamp.demo.bc_forum.service.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PostRemove;
 
 @RestController
 public class ForumController implements ForumOperation {
+  // @Autowired
+  // private final PostRepository postRepository;
   @Autowired
   private UserService userService;
   @Autowired
@@ -31,10 +44,44 @@ public class ForumController implements ForumOperation {
   private CommentService commentService;
   @Autowired
   private DTOMapper dtoMapper;
+  @Autowired
+  private EntityMapper entityMapper;
+
+    // ForumController(PostRepository postRepository) {
+    //     this.postRepository = postRepository;
+    // }
 
   // ! Task 3A
   @Override
   public List<ForumUserDTO> getForumUsers() {
+    // ! Revise to call DB
+    List<CommentEntity> commentEntities = this.commentService.findAll();
+    Map<Long, ForumUserDTO> userMap = new HashMap<>();
+
+    for (CommentEntity commentEntity : commentEntities) {
+      PostEntity postEntity = commentEntity.getPostEntity();
+      UserEntity userEntity = postEntity.getUserEntity();
+
+      if (!userMap.containsKey(userEntity.getId())) {
+        // add entry: ForumUserDTO (posts list + curret comment)
+
+
+        userMap.put(userEntity.getId(), );
+        continue;
+      }
+      List<ForumPostDTO> forumPostDTOs userMap.get(userEntity.getId().getPosts();
+      for
+
+      // TODO commentEntity -> ForumCommentDTO
+      for (ForumPostDTO forumPostDTOs : forumPostDTOs) {
+        
+      }
+    }
+
+
+
+
+
     List<UserDTO> userDTOs = this.userService.getUsers();
     List<PostDTO> postDTOs = this.postService.getPosts();
     List<CommentDTO> commentDTOs = this.commentService.getComments();
@@ -93,5 +140,25 @@ public class ForumController implements ForumOperation {
         .username(userDTO.getUsername()) //
         .comments(forumUserComments) //
         .build();
+  }
+
+  // One to Many, Create Child object to Database
+  @Override
+  public PostEntity createPost(Long id, PostReqDTO postReqDTO) {
+    // Step 1: postReqDTO -> postEntity (Controller) (PK of PostEntity)
+    UserEntity userEntity = this.userService.findById(id)  //
+        .orElseThrow(() -> new NotFoundException(SysError.USER_NOT_FOUND));
+    // Step 2: model -> postEntity (Services)
+    PostEntity postEntity = this.entityMapper.map(postReqDTO, userEntity);
+    // Step 3: save PostEntity
+    return this.postService.save(postEntity);
+  }
+
+  @Override
+  public List<ForumPostDTO2> getPostsByUserId(Long id) {
+    return this.postService.getPostsByUserId(id) // return List<PostEntity>
+        .stream() // return Stream<PostEntity>
+        .map(e -> this.dtoMapper.map(e)) // return Stream<ForumPostDTO2>
+        .collect(Collectors.toList()); // return List<ForumPostDTO2>
   }
 }

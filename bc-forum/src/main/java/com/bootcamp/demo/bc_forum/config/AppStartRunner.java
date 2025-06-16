@@ -68,6 +68,10 @@ public class AppStartRunner implements CommandLineRunner {
       }
     }
     // Step 3: Insert into DB (Users, Posts, Comments)
+    this.commentService.deleteAll(); // require empty constructor
+    this.postService.deleteAll(); // require empty constructor
+    this.userService.deleteAll(); // require empty constructor
+
     this.userService.saveAll(userEntities);
     this.postService.saveAll(postEntities);
     this.commentService.saveAll(commentEntities);

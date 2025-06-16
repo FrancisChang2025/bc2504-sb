@@ -11,4 +11,5 @@ public interface UserService {
 
   List<UserEntity> saveAll(List<UserEntity> userEntities);
   Optional<UserEntity> findById(Long id);
+  void deleteAll();
 }

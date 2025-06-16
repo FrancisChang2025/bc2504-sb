@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
     return this.userRepository.findById(id);
   }
 
+  @Override
+  public void deleteAll() {
+    this.userRepository.deleteAll();
+  }
+
 }

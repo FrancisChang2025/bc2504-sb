@@ -11,12 +11,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "posts")
 @Builder
+@NoArgsConstructor
 public class PostEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class PostEntity implements Serializable {
   private String title;
   private String body;
 
-  @ManyToOne
+  @ManyToOne  // !FK
   @JoinColumn(name = "user_id")
   private UserEntity userEntity;
 }

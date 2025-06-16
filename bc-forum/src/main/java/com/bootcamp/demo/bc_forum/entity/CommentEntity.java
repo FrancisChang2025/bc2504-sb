@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // PK, FK, column definition (VARCHAR(100), NUMERIC(10,2))
 // service call comments 
@@ -21,11 +22,13 @@ import lombok.Getter;
 @Entity
 @Table(name = "comments")
 @Builder
+@NoArgsConstructor
 public class CommentEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+  private String email;
   @Column(length = 500)
   private String body;
 

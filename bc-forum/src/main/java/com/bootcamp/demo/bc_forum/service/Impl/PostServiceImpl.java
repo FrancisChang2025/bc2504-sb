@@ -41,4 +41,19 @@ public class PostServiceImpl implements PostService {
   public List<PostEntity> saveAll(List<PostEntity> postEntities) {
     return this.postRepository.saveAll(postEntities);
   }
+
+  @Override
+  public PostEntity save(PostEntity postEntity) {
+    return this.postRepository.save(postEntity);
+  }
+
+  @Override
+  public void deleteAll() {
+    this.postRepository.deleteAll();
+  }
+
+  @Override
+  public List<PostEntity> getPostsByUserId(Long userId) {
+    return this.postRepository.findByUserEntityId(userId);
+  }
 }

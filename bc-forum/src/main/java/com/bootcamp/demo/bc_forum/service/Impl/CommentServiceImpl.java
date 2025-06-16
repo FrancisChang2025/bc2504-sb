@@ -31,7 +31,8 @@ public class CommentServiceImpl implements CommentService {
   public List<CommentDTO> getComments() {
     // String url = "https://jsonplaceholder.typicode.com/comments";
     CommentDTO[] dtos = this.restTemplate.getForObject(this.url, CommentDTO[].class); // >100ms
-    return new ArrayList<>(Arrays.asList(dtos));
+    // return new ArrayList<>(Arrays.asList(dtos));
+    return List.of(dtos);
   }
 
   @Override
@@ -44,5 +45,15 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<CommentEntity> saveAll(List<CommentEntity> commentEntities) {
     return this.commentRepository.saveAll(commentEntities);
+  }
+
+  @Override
+  public void deleteAll() {
+    this.commentRepository.deleteAll();
+  }
+
+  @Override
+  public List<CommentEntity> findAll() {
+    return this.commentRepository.findAll();
   }
 }
