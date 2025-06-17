@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 // https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en
 @AllArgsConstructor
 @Getter
@@ -26,7 +25,7 @@ public class WeatherDTO {
   @Getter
   private static class Temperature2 {
     private String place;
-    private Long value; 
+    private double value; 
     private String unit;
     private OffsetDateTime recordTime;
   }
@@ -35,7 +34,7 @@ public class WeatherDTO {
   @Getter
   private static class Temperature3 {
     private String place;
-    private Long value;
+    private double value;
     private String unit;
     private OffsetDateTime recordTime;
 
@@ -43,7 +42,7 @@ public class WeatherDTO {
     @Getter
     public static class Depth {
       private String unit;
-      private Double value;
+      private double value;
     }
   }
   

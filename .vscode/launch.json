@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-DemoGovDataApplication<demo-gov-data>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.bootcamp.gov.data.demo_gov_data.DemoGovDataApplication",
+      "projectName": "demo-gov-data",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
