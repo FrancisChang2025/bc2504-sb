@@ -1,6 +1,8 @@
 package com.bootcamp.gov.data.demo_gov_data.model.dto;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -25,7 +27,7 @@ public class WeatherDTO {
   @Getter
   private static class Temperature2 {
     private String place;
-    private double value; 
+    private Double value; 
     private String unit;
     private OffsetDateTime recordTime;
   }
@@ -34,7 +36,7 @@ public class WeatherDTO {
   @Getter
   private static class Temperature3 {
     private String place;
-    private double value;
+    private Double value;
     private String unit;
     private OffsetDateTime recordTime;
 
@@ -42,7 +44,7 @@ public class WeatherDTO {
     @Getter
     public static class Depth {
       private String unit;
-      private double value;
+      private Double value;
     }
   }
   
@@ -72,8 +74,18 @@ public class WeatherDTO {
     @AllArgsConstructor
     @Getter
     public static class Temperature {
-      private Long value;
+      private Double value;
       private String unit;
     }
+  }
+
+   public static void main(String[] args) {
+    OffsetDateTime offsetDateTime = OffsetDateTime
+        .of(LocalDateTime.of(2025, 1, 30, 23, 59, 59), ZoneOffset.ofHours(8));
+    
+    //  OffsetDateTime -> LocalDateTime
+    LocalDateTime localDateTime = offsetDateTime.toLocalDateTime();
+    System.out.println(offsetDateTime.toString()); // 2025-01-30T23:59:59+08:00
+    System.out.println(localDateTime);
   }
 }

@@ -13,7 +13,7 @@ import com.bootcamp.demo.bc_mtr_station.entity.StationEntity;
 public interface StationOperation {
   // Get stations by line id
   @GetMapping(value = "/line/{id}/station")
-  List<StationRespDTO> getStationById(@PathVariable(value = "id") Long id);
+  List<StationRespDTO> getStationById(@PathVariable(value = "id") Long lineId);
   
   // Get stations
   @GetMapping(value = "stations")
@@ -22,10 +22,11 @@ public interface StationOperation {
   // Post a new Station by line id
   @PostMapping(value = "/line/{id}/station")
   StationEntity createStationByLineId( //
-    @PathVariable(value = "id") Long lindId, 
+    @PathVariable(value = "id") Long lineId, 
       @RequestBody StationReqDTO stationReqDTO);
 
   // delete station by station id
   @DeleteMapping(value = "/station/{id}")
-  void deleteStationById(@PathVariable Long id);
+  StationEntity deleteStationById(
+    @PathVariable(value = "id") Long stationId);
 }

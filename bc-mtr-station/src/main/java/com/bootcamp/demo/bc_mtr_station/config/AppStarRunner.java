@@ -21,6 +21,8 @@ public class AppStarRunner implements CommandLineRunner{
   @Override
   public void run(String... args) throws Exception {
     System.out.println("hello");
+    
+    // AEL
     LineEntity aelLineEntity = LineEntity.builder().code("AEL") //
         .description("Airport Express").build();
 
@@ -72,5 +74,13 @@ public class AppStarRunner implements CommandLineRunner{
     this.stationService.saveAll(aelStationEntities);  // @Nonnull -> check if fields are null
     this.stationService.saveAll(aclStationEntities);
 
+    // TML
+    // TKL
+    // EAL
+    // SIL
+    // TWL
+    // ISL
+    // KTL
+    // DRL
   }
 }

@@ -30,8 +30,8 @@ public class StationController implements StationOperation {
   private EntityMapper entityMapper;
 
   @Override
-  public List<StationRespDTO> getStationById(Long id) {
-    LineEntity lineEntity = this.lineService.findById(id) //
+  public List<StationRespDTO> getStationById(Long lineId) {
+    LineEntity lineEntity = this.lineService.findById(lineId) //
         .orElseThrow(() -> new RuntimeException("Line ID Not Found."));
 
     return this.stationService.findStations(lineEntity.getId()).stream() //
@@ -52,11 +52,10 @@ public class StationController implements StationOperation {
     return this.stationService.save(lindId, stationEntity);
   }
 
-  // @Override
-  // public StationEntity deleteStationById(Long stationId, StationReqDTO stationReqDTO) {
-  //   StationEntity stationEntity = this.entityMapper.map(stationReqDTO);
-  //   return this.stationService.deleteStationById(stationId, stationReqDTO);
-  // }
+  @Override
+  public StationEntity deleteStationById(Long stationId) {
+    return deleteStationById(stationId);
+  }
 
 
 }
