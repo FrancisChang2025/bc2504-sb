@@ -23,9 +23,9 @@ public class LineEntity {
 
   @Column(name = "line_code", nullable = false)
   @Nonnull
-  private String code;  // getCode()
+  private String code;
 
-  @Column(name = "station_description", length = 100, nullable = false)
+  @Column(name = "line_desc", length = 100, nullable = false)
   @Nonnull
   private String description;
 }
