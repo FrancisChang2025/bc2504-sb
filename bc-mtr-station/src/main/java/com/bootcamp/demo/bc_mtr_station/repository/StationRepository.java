@@ -9,4 +9,6 @@ import com.bootcamp.demo.bc_mtr_station.entity.StationEntity;
 public interface StationRepository extends JpaRepository<StationEntity, Long> {
   // get stations by line id
   List<StationEntity> findByLineEntityId(Long lineId);  // ! FK
+
+  List<StationEntity> findByCode(String stationCode);
 }
