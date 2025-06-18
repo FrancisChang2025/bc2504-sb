@@ -13,4 +13,6 @@ public interface StationService {
   StationEntity save(StationEntity stationEntity);
   
   StationEntity save(Long lineId, StationEntity stationEntity);
+
+  void deleteById (Long id);
 }

@@ -10,3 +10,11 @@ spring.jpa:
   properties:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
+
+service-url:
+  mtr:
+    host: "rt.data.gov.hk"
+    api:
+      mtr-schedule:
+        version: "/v1"
+        endpoint: "/transport/mtr/getSchedule.php"

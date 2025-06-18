@@ -46,4 +46,9 @@ public class StationServiceImpl implements StationService {
     // save StationEntity
     return this.stationRepository.save(stationEntity);
   }
+
+  @Override
+  public void deleteById (Long id) {
+    this.stationRepository.deleteById(id);
+  }
 }

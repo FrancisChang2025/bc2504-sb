@@ -53,9 +53,8 @@ public class StationController implements StationOperation {
   }
 
   @Override
-  public StationEntity deleteStationById(Long stationId) {
-    return deleteStationById(stationId);
+  public void deleteStationById(Long id) {
+    this.stationService.deleteById(id);
   }
-
 
 }

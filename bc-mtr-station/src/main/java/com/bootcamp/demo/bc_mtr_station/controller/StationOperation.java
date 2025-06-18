@@ -27,6 +27,5 @@ public interface StationOperation {
 
   // delete station by station id
   @DeleteMapping(value = "/station/{id}")
-  StationEntity deleteStationById(
-    @PathVariable(value = "id") Long stationId);
+  void deleteStationById(@PathVariable Long id);
 }
