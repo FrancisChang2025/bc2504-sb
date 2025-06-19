@@ -56,5 +56,4 @@ public class StationController implements StationOperation {
   public void deleteStationById(Long id) {
     this.stationService.deleteById(id);
   }
-
 }

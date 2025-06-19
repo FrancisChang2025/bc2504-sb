@@ -1,35 +1,29 @@
-package com.bootcamp.demo.bc_mtr_station.dto.response;
+package com.bootcamp.demo.demo_mtr_caller.model.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-@Builder
-@ToString
-public class EarliestScheduleDTO {
+public class ABCDTO {
+  // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
   private LocalDateTime currTime;
+  // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
   private LocalDateTime sysTime;
   private String currentStation;
-  private List<TrainInfo> trains;
+  private List<Train> trains;
 
   @AllArgsConstructor
   @Getter
-  @Builder
-  @ToString
-  public static class TrainInfo {
-    @JsonProperty("destination")
-    private String dest;
+  @NoArgsConstructor
+  public static class Train {
+    private String destination;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime arrivalTime;
-    @Setter
     private String direction;
   }
 }

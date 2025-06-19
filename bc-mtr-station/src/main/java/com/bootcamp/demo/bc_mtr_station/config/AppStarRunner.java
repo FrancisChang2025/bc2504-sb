@@ -7,19 +7,29 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.bootcamp.demo.bc_mtr_station.entity.LineEntity;
 import com.bootcamp.demo.bc_mtr_station.entity.StationEntity;
+import com.bootcamp.demo.bc_mtr_station.repository.LineRepository;
+import com.bootcamp.demo.bc_mtr_station.repository.StationRepository;
 import com.bootcamp.demo.bc_mtr_station.service.LineService;
 import com.bootcamp.demo.bc_mtr_station.service.StationService;
 
-// Server start
+// ! Server start
 @Component
 public class AppStarRunner implements CommandLineRunner {
     @Autowired
     private LineService lineService;
     @Autowired
     private StationService stationService;
+    @Autowired
+    private LineRepository lineRepositor;
+    @Autowired
+    private StationRepository stationRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        this.stationRepository.deleteAll();
+        this.lineRepositor.deleteAll();
+        
         System.out.println("hello");
 
         // AEL

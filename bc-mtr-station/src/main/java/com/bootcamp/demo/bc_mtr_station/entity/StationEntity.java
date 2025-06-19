@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "mtr_stations")
 @Builder
+@NoArgsConstructor
 public class StationEntity {
   @Id  // ! PK = non-null + unique
   @GeneratedValue(strategy = GenerationType.IDENTITY)

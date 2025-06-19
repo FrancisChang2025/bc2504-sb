@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import com.bootcamp.demo.bc_mtr_station.dto.mapper.DTOMapper;
 import com.bootcamp.demo.bc_mtr_station.dto.response.EarliestScheduleDTO;
 import com.bootcamp.demo.bc_mtr_station.dto.response.EarliestScheduleDTO.TrainInfo;
 import com.bootcamp.demo.bc_mtr_station.entity.StationEntity;
+import com.bootcamp.demo.bc_mtr_station.model.Scheme;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO.StationSchedule;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO.StationSchedule.TrainData;
@@ -29,7 +31,6 @@ public class MTRServiceImpl implements MTRService {
   @Autowired
   private DTOMapper dtoMapper;
 
-
   @Value("${service-url.mtr.host}")
   private String host;
 
@@ -39,53 +40,77 @@ public class MTRServiceImpl implements MTRService {
   @Value("${service-url.mtr.api.mtr-schedule.endpoint}")
   private String serviceEndpoint;
 
-
   @Override
   public ScheduleDTO getSchedule(String line, String station) {
-    String url = "https://" + this.host + this.serviceVer + this.serviceEndpoint
-        + "?line=" + line + "&sta=" + station;
+    String url = UriComponentsBuilder.newInstance()
+      .scheme(Scheme.HTTPS.getName()) //
+      .host(this.host) //
+      .pathSegment(this.serviceVer) // ! given a slash
+      .path(serviceEndpoint) //
+      .queryParam("Line", line) //
+      .queryParam("sta", station) //
+      .build() //
+      .toUriString();
+
+    System.out.println("url:" + url);
     return this.restTemplate.getForObject(url, ScheduleDTO.class);
   }
 
   @Override
   public EarliestScheduleDTO getEarliestSchedule(String stationCode) {
-    StationEntity stationEntity = this.stationRepository.findByCode(stationCode)
-        .orElseThrow(() -> new RuntimeException("Invalid Station Code."));
+    List<StationEntity> stationEntities =
+        this.stationRepository.findByCode(stationCode);
 
-    String lineCode = stationEntity.getLineEntity().getCode();
-    return this.getEarliestSchedule(lineCode, stationCode);
-  }
+    if (stationEntities.isEmpty()) {
+      throw new RuntimeException("Invalid Station Code.");
+    }
+    // .orElseThrow(() -> new RuntimeException("Invalid Station Code."));
 
-  private EarliestScheduleDTO getEarliestSchedule(String lineCode,
-      String stationCode) {
-    ScheduleDTO scheduleDTO = this.getSchedule(lineCode, stationCode);
-
-    // ! Find earliest trains for the station
-    StationSchedule stationSchedule =
-        scheduleDTO.getData().get(lineCode + "-" + stationCode);
-    List<TrainData> upTrainDatas = stationSchedule.getUpTrainDatas();
-    List<TrainData> downTrainDatas = stationSchedule.getDownTrainDatas();
-
-    // Comparator<TrainData> earlierTrainFormula = (t1, t2) -> t1.getTime().compareTo(t2.getTime());
-    List<EarliestScheduleDTO.TrainInfo> upTrainInfos =
-        this.getTrainInfos(upTrainDatas, "UP");
-    List<EarliestScheduleDTO.TrainInfo> downTrainInfos =
-        this.getTrainInfos(downTrainDatas, "DOWN");
-
-    List<EarliestScheduleDTO.TrainInfo> allTrainInfos = new ArrayList<>();
-    allTrainInfos.addAll(upTrainInfos);
-    allTrainInfos.addAll(downTrainInfos);
+    List<TrainInfo> trainInfos = new ArrayList<>();
+    for (StationEntity stationEntity : stationEntities) {
+      String lineCode = stationEntity.getLineEntity().getCode();
+      List<TrainInfo> infos = this.getEarliestSchedule(lineCode, stationCode);
+      trainInfos.addAll(infos); // ! call MTR API
+    }
 
     return EarliestScheduleDTO.builder() //
         .currTime(LocalDateTime.now()) //
         .sysTime(LocalDateTime.now()) //
         .currentStation(stationCode) //
-        .trains(allTrainInfos) //
+        .trains(trainInfos) //
         .build();
   }
 
-  private List<TrainInfo> getTrainInfos(
-      List<TrainData> trainDatas, String direction) {
+  // ! 2 times call for 2 lines
+  private List<TrainInfo> getEarliestSchedule(String lineCode,
+      String stationCode) {
+    ScheduleDTO scheduleDTO = this.getSchedule(lineCode, stationCode);
+    List<EarliestScheduleDTO.TrainInfo> allTrainInfos = new ArrayList<>();
+
+    // ! Find earliest trains for the station
+    StationSchedule stationSchedule =
+        scheduleDTO.getData().get(lineCode + "-" + stationCode);
+
+    if (stationSchedule != null) {
+      List<TrainData> upTrainDatas = stationSchedule.getUpTrainDatas();
+      if (upTrainDatas != null) {
+        List<EarliestScheduleDTO.TrainInfo> upTrainInfos =
+            this.getTrainInfos(upTrainDatas, "UP");
+        allTrainInfos.addAll(upTrainInfos);
+      }
+      List<TrainData> downTrainDatas = stationSchedule.getDownTrainDatas();
+      if (downTrainDatas != null) {
+        List<EarliestScheduleDTO.TrainInfo> downTrainInfos =
+            this.getTrainInfos(downTrainDatas, "DOWN");
+        allTrainInfos.addAll(downTrainInfos);
+      }
+    }
+    // Comparator<TrainData> earlierTrainFormula = (t1, t2) -> t1.getTime().compareTo(t2.getTime());
+    return allTrainInfos;
+  }
+
+  private List<TrainInfo> getTrainInfos(List<TrainData> trainDatas,
+      String direction) {
     Map<String, TrainData> eTrainMap = new HashMap<>();
     for (TrainData trainData : trainDatas) {
       TrainData trainInMap = eTrainMap.get(trainData.getDest());

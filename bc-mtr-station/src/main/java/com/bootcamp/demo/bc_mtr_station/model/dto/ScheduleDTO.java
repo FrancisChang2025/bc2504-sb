@@ -6,8 +6,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ScheduleDTO {
   @JsonProperty(value = "sys_time")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -26,6 +28,7 @@ public class ScheduleDTO {
   private String message;
 
   @Getter
+  @ToString
   public static class StationSchedule {
     @JsonProperty(value = "sys_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -41,6 +44,7 @@ public class ScheduleDTO {
     private List<TrainData> downTrainDatas;
 
     @Getter
+    @ToString
     public static class TrainData {
       private String seq;
       private String dest;

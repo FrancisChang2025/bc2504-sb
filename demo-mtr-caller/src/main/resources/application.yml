@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+# http://localhost:8080/earliestschedule?sta=TKO
+
+service:
+  api:
+    mtr:
+      host: "localhost:8080" # bc-mtr-station
+      schedule:
+        version: ""
+        endpoint: "/earliestschedule"

@@ -16,5 +16,5 @@ service-url:
     host: "rt.data.gov.hk"
     api:
       mtr-schedule:
-        version: "/v1"
+        version: "v1"
         endpoint: "/transport/mtr/getSchedule.php"

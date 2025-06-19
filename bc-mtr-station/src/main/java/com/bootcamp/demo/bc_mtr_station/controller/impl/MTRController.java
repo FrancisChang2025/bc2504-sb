@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.demo.bc_mtr_station.controller.MTROperation;
 import com.bootcamp.demo.bc_mtr_station.dto.response.EarliestScheduleDTO;
+import com.bootcamp.demo.bc_mtr_station.model.ApiResp;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO;
 import com.bootcamp.demo.bc_mtr_station.service.MTRService;
 
@@ -13,12 +14,20 @@ public class MTRController implements MTROperation {
   private MTRService mtrService;
 
   @Override
-  public ScheduleDTO getSchedule(String lineCode, String stationCode) {
-    return this.mtrService.getSchedule(lineCode, stationCode);
+  public ApiResp<ScheduleDTO> getSchedule(String lineCode, String stationCode) {
+    ScheduleDTO scheduleDTO =
+        this.mtrService.getSchedule(lineCode, stationCode);
+    return ApiResp.<ScheduleDTO>builder() //
+        .data(scheduleDTO) //
+        .build();
   }
 
   @Override
-  public EarliestScheduleDTO getEarliestSchedule(String stationCode) {
-    return this.getEarliestSchedule(stationCode);
+  public ApiResp<EarliestScheduleDTO> getEarliestSchedule(String stationCode) {
+    EarliestScheduleDTO earliestScheduleDTO =
+        this.mtrService.getEarliestSchedule(stationCode);
+    return ApiResp.<EarliestScheduleDTO>builder() //
+        .data(earliestScheduleDTO) //
+        .build();
   }
 }

@@ -10,12 +10,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "mtr_lines")
 @Builder
+@NoArgsConstructor
 public class LineEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

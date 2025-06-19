@@ -1,0 +1,21 @@
+{
+  "code": "000000",
+  "message": "success.",
+  "data": {
+      "currTime": "2025-06-19T13:44:25.405962",
+      "sysTime": "2025-06-19T13:44:25.405974",
+      "currentStation": "WTS",
+      "trains": [
+          {
+              "destination": "TIK",
+              "arrivalTime": "2025-06-19 13:44:08",
+              "direction": "UP"
+          },
+          {
+              "destination": "WHA",
+              "arrivalTime": "2025-06-19 13:44:08",
+              "direction": "DOWN"
+          }
+      ]
+  }
+}
