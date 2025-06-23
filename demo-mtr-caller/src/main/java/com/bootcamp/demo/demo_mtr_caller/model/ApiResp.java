@@ -1,6 +1,9 @@
-package com.bootcamp.demo.demo_mtr_caller.model.dto;
+package com.bootcamp.demo.demo_mtr_caller.model;
+
+import lombok.ToString;
 
 // Java 1.5
+@ToString
 public class ApiResp<T> {
   private String code; // "000000"
   private String message; // "success."

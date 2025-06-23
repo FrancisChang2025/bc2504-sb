@@ -1,0 +1,15 @@
+service:
+  coingecko:
+    host:
+      demo: "/api.coingecko.com"
+      pro: "pro-api.coingecko.com"
+    api:
+      key-name: "x-cg-demo-api-key"
+      key-value: "CG-NwCy3TmdJv6BKZwCEAHfuVxp"
+      markets:
+        version: "api/v3"
+        endpoint: "/coins/markets"
+
+# http GET 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin'
+
+# x-cg-demo-api-key:CG-NwCy3TmdJv6BKZwCEAHfuVxp

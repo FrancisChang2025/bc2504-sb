@@ -9,9 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.bootcamp.demo.demo_mtr_caller.exception.ServiceException;
+import com.bootcamp.demo.demo_mtr_caller.model.ApiResp;
+import com.bootcamp.demo.demo_mtr_caller.model.ErrorCode;
 import com.bootcamp.demo.demo_mtr_caller.model.dto.ABCDTO;
-import com.bootcamp.demo.demo_mtr_caller.model.dto.ApiResp;
+import com.bootcamp.demo.demo_mtr_caller.model.dto.ErrorDTO;
 import com.bootcamp.demo.demo_mtr_caller.service.MTRService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class MTRServiceImpl implements MTRService {
@@ -27,8 +33,12 @@ public class MTRServiceImpl implements MTRService {
   @Value("${service.api.mtr.schedule.endpoint}")
   private String serviceEndpoint;
 
+  @Autowired
+  private ObjectMapper objectMapper;
+
   @Override
-  public ABCDTO getEarliestSchedule(String stationCode) {
+  public ABCDTO getEarliestSchedule(String stationCode) 
+      throws JsonProcessingException {
     String url = UriComponentsBuilder.newInstance() //
         .scheme("http") //
         .host(this.host) //
@@ -37,22 +47,29 @@ public class MTRServiceImpl implements MTRService {
         .build() //
         .toUriString();
 
-    System.out.println("url=" + url);  // only for checking in Terminal
-
     // ! getForObject does not support generic, using another method
-    // this.restTemplate.getForObject(url, ApiResp.<ABCDTO>.class);
+    // this.restTemplate.getForObject(url, ApiResp<ABCDTO>.class);
 
-    // exchange()
-    ResponseEntity<ApiResp<ABCDTO>> responseEntity =
+    System.out.println("url=" + url);
+
+    ResponseEntity<ApiResp<JsonNode>> responseEntity =
         this.restTemplate.exchange(url, //
             HttpMethod.GET, //
             null, //
-            new ParameterizedTypeReference<ApiResp<ABCDTO>>() {} //
+            new ParameterizedTypeReference<ApiResp<JsonNode>>() {} // JSON String
         );
+
     if (responseEntity.getStatusCode() == HttpStatus.OK) { // 200
-      ABCDTO abcdto = responseEntity.getBody().getData();
-      System.out.println("abcdto=" + abcdto);
-      return abcdto;
+      JsonNode data = responseEntity.getBody().getData();
+
+      if (responseEntity.getBody().getCode().equals("000000")) {
+        // Object -> Object
+        ABCDTO abcdto = this.objectMapper.treeToValue(data, ABCDTO.class); // serialization
+        return abcdto;
+      }
+
+      ErrorDTO errorDTO = this.objectMapper.treeToValue(data, ErrorDTO.class); // serialization
+      throw ServiceException.of(ErrorCode.MTR_SERVICE_EXCEPTION, errorDTO.getMessage());
     }
     return null;
   }

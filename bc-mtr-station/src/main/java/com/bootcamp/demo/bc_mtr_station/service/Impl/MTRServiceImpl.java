@@ -15,6 +15,8 @@ import com.bootcamp.demo.bc_mtr_station.dto.mapper.DTOMapper;
 import com.bootcamp.demo.bc_mtr_station.dto.response.EarliestScheduleDTO;
 import com.bootcamp.demo.bc_mtr_station.dto.response.EarliestScheduleDTO.TrainInfo;
 import com.bootcamp.demo.bc_mtr_station.entity.StationEntity;
+import com.bootcamp.demo.bc_mtr_station.exception.NotFoundException;
+import com.bootcamp.demo.bc_mtr_station.model.ErrorCode;
 import com.bootcamp.demo.bc_mtr_station.model.Scheme;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO;
 import com.bootcamp.demo.bc_mtr_station.model.dto.ScheduleDTO.StationSchedule;
@@ -52,7 +54,7 @@ public class MTRServiceImpl implements MTRService {
       .build() //
       .toUriString();
 
-    System.out.println("url:" + url);
+    System.out.println("url=" + url);
     return this.restTemplate.getForObject(url, ScheduleDTO.class);
   }
 
@@ -62,7 +64,7 @@ public class MTRServiceImpl implements MTRService {
         this.stationRepository.findByCode(stationCode);
 
     if (stationEntities.isEmpty()) {
-      throw new RuntimeException("Invalid Station Code.");
+      throw NotFoundException.of(ErrorCode.STATION_CODE_NOT_FOUND);
     }
     // .orElseThrow(() -> new RuntimeException("Invalid Station Code."));
 

@@ -1,4 +1,4 @@
-package com.bootcamp.demo.demo_mtr_caller.model.dto;
+package com.bootcamp.demo.demo_mtr_caller.model;
 
 public enum SysCode {
   OK("000000", "success."), //
