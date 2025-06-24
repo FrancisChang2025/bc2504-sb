@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "service.coingecko.host.demo",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.host.demo'"
+  },
+  {
+    "name": "service.coingecko.host.pro",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.host.pro'"
+  },
+  {
+    "name": "service.coingecko.api.key-name",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.api.key-name'"
+  },
+  {
+    "name": "service.coingecko.api.key-value",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.api.key-value'"
+  },
+  {
+    "name": "service.coingecko.api.markets.version",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.api.markets.version'"
+  },
+  {
+    "name": "service.coingecko.api.markets.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'service.coingecko.api.markets.endpoint'"
+  }
+]}

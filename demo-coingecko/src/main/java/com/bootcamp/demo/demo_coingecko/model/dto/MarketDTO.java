@@ -1,5 +1,6 @@
 package com.bootcamp.demo.demo_coingecko.model.dto;
 
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -13,7 +14,7 @@ public class MarketDTO {
   private String name;
   private String image;
   private Double currentPrice;
-  private Long marketCap;
+  private Double marketCap;
   private Integer marketCapRank;
   private Long fullyDilutedValuation;
   private Long totalVolume;
@@ -22,22 +23,30 @@ public class MarketDTO {
   @JsonProperty(value = "low_24h")
   private Double low24h;
   @JsonProperty(value = "price_change_24h")
-  private Double priceChange24h;
+  private Double pricechange24h;
   @JsonProperty(value = "price_change_percentage_24h")
-  private Double priceChangePercentage24h;
+  private Double pricechangePercentage24h;
   @JsonProperty(value = "market_cap_change_24h")
-  private Long marketCapChange24h;
+  private Double marketCapchange24h;
   @JsonProperty(value = "market_cap_change_percentage_24h")
-  private Double marketCapChangePercentage24h;
-  private Long circulatingSupply;
-  private Long totalSupply;
-  private Long maxSupply;
+  private Double marketCapchangePercentage24h;
+  private Double circulatingSupply;
+  private Double totalSupply;
+  private Double maxSupply;
   private Double ath;
-  private Double athChangePercentage;
-  private String athDate;
+  private Double athchangePercentage;
+  private LocalDateTime athDate;
   private Double atl;
-  private Double atlChangePercentage;
-  private String atlDate;
-  private Double roi; // Nullable
-  private String lastUpdated;
+  private Double atlchangePercentage;
+  private LocalDateTime atlDate;
+  private ROI roi;
+  private LocalDateTime lastUpdated;
+
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+  @Getter
+  public static class ROI {
+    private Double times;
+    private String currency;
+    private Double percentage;
+  }
 }

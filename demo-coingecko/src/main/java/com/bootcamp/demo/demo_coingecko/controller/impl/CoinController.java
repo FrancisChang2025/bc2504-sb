@@ -8,19 +8,21 @@ import com.bootcamp.demo.demo_coingecko.controller.CoinOperation;
 import com.bootcamp.demo.demo_coingecko.dto.CoinDTO;
 import com.bootcamp.demo.demo_coingecko.dto.mapper.DTOMapper;
 import com.bootcamp.demo.demo_coingecko.service.CoinService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestController
 public class CoinController implements CoinOperation {
   @Autowired
   private CoinService coinService;
-
   @Autowired
   private DTOMapper dtoMapper;
 
   @Override
-  public List<CoinDTO> getCoinData(String currency, String coins) {
+  public List<CoinDTO> getCoinDatas(String currency, String coins) 
+        throws JsonProcessingException {
     String[] coinArray = coins.split(",");
-    return this.coinService.getMarkets(currency, List.of(coinArray)).stream() //
+    return this.coinService.getMarketsWithCache(currency, List.of(coinArray)) //
+      .stream() //
       .map(m -> this.dtoMapper.map(m)) //
       .collect(Collectors.toList());
   }
