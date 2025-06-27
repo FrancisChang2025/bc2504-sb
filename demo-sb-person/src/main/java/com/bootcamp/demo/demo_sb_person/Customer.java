@@ -15,7 +15,6 @@ import lombok.Setter;
 
 public class Customer {
   private Long id;
-  private List<Order> orders;
-  
+  private List<Order> orders; 
 
 }

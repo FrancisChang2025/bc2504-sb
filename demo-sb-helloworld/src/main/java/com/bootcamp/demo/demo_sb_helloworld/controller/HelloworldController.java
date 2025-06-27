@@ -1,4 +1,4 @@
-package com.bootcamp.demo.demo_sb_helloworld;
+package com.bootcamp.demo.demo_sb_helloworld.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,6 +1,10 @@
+server:
+  port: 8085
+
+# Docker: postgres-container and redis-contrainer
 spring.datasource:
   driverClassName: "org.postgresql.Driver"
-  url: "jdbc:postgresql://localhost:5432/postgres"
+  url: "jdbc:postgresql://postgres-container:5432/postgres"
   username: "postgres"
   password: "admin1234"
 
@@ -26,5 +30,5 @@ service:
 spring:
   data:
     redis:
-      host: localhost
+      host: redis-container
       port: 6379
