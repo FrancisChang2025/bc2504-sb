@@ -11,20 +11,21 @@ import com.bootcamp.demo.demo_sb_helloworld.model.Person;
 public class BootcampController {
 
   @GetMapping(value = "/bootcamp/hello")
-  public Customer getCustomer() {
-    List<Order> orders = List.of(Order.id(10L).build());
-    return Customer.builder()
-    .id(1L)
-    .orders(orders)
-    .build();
+  public Customer getCustomer(int Order) {
+    List<Order> orders = List.of(Order.builder().id(10L).build());
 
-}
+    return Customer.builder() //
+      .id(1L)
+      .orders(orders)
+      .build();
+  }
   @GetMapping(value = "/bootcamp/goodbye")
   public Person getPerson() {
-  return Person.builder()
-        .age(17)
-        .name("John")
-        .build();
+    return Person.builder()
+      .age(17)
+      .name("John")
+      .build();
   }
+  
 }
 

@@ -14,4 +14,8 @@ public class CoinDTO {
   private String image;
   private Double currentPrice;
   private Double marketCap;
+  private Integer marketCapRank;
+  private Long totalVolume;
+  private Double pricechange24h;
+  private Double pricechangePercentage24h;
 }

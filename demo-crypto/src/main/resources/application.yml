@@ -1,0 +1,10 @@
+server:
+  port: 8086
+
+service:
+  coingecko:
+    host: "coin-app:8085"
+    api:
+      quotation:
+        version: ""
+        endpoint: "/coin/quotation"
