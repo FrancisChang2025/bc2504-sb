@@ -9,7 +9,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-public class CustomTimestampDeserializer extends JsonDeserializer<LocalDateTime> {
+public class CustomTimestampDeserializer 
+        extends JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonParser jsonParser, 
           DeserializationContext context) throws IOException {

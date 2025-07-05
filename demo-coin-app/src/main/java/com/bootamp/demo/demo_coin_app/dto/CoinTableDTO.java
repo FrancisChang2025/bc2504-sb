@@ -23,6 +23,8 @@ public class CoinTableDTO {
   @JsonProperty("price_change_percentage_24h")
   private Double priceChangePercent24h;
   @JsonProperty("last_updated")
+
+  // {"date" : "Jan, 01, 2025"}
   // @JsonDeserialize(using = CustomTimestampDeserializer.class)
   private LocalDateTime lastUpdated;
 }
